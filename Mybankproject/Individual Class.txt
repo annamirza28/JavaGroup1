@@ -1,0 +1,15 @@
+public class Individual extends Customer {
+    
+    public Individual(int customerId, String customerName, CustomerType customerType) {
+        super(customerId, customerName, customerType);
+    }
+      @Override
+    public String toString() {
+        return "Individual{" +
+                "customerId=" + getCustomerId() +
+                ", customerName='" + getCustomerName() + '\'' +
+                ", customerType=" + getCustomerType() +
+                '}';
+    }
+    
+}

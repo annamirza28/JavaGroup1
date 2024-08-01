@@ -1,0 +1,71 @@
+public class Customer {
+    private int customerId;
+    private String customerName;
+    private CustomerType customerType;
+    private String uid, pwd;
+
+    public Customer(int customerId, String customerName, CustomerType customerType) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.customerType = customerType;
+    }
+
+    public void login() {
+        String username = "ana", password = "Ana123";
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter user id");
+        uid = sc.next();
+        System.out.println("Enter password");
+        pwd = sc.next();
+
+        if (uid.equalsIgnoreCase(username) && pwd.equals(password)) {
+            System.out.println("Login success");
+        } else {
+            System.out.println("Login fail");
+        }
+    }
+
+    public void addAccount() {
+        // Placeholder for addAccount method
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId=" + customerId +
+                ", customerName='" + customerName + '\'' +
+                ", customerType=" + customerType +
+                '}';
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public CustomerType getCustomerType() {
+        return customerType;
+    }
+
+    public void setCustomerType(CustomerType customerType) {
+        this.customerType = customerType;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public static void main(String[] args) {
+        // Example usage:
+        Customer customer = new Customer(1, "John Doe", CustomerType.BUSINESS);
+        System.out.println(customer);
+        customer.login();
+    }
+}

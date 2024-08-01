@@ -1,0 +1,11 @@
+public class Savings extends Account {
+    
+    public Savings(int accountID, Enum accountType, double balance, String customerName) {
+        super(accountID, accountType, balance, customerName);
+    }
+    
+    @Override
+    public String toString() {
+        return "Savings{" + '}';
+    }
+}

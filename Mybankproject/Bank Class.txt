@@ -1,0 +1,159 @@
+public class Bank {
+  private int bankID;
+    private String bankName;
+    private String bankAddress;
+    private HashMap<Integer,Employee> employees;
+    private HashMap<Integer, Customer> customers;
+    private HashMap<Integer, Account> accounts;
+
+    public Bank(int bankID, String bankName, String bankAddress) {
+        this.bankID = bankID;
+        this.bankName = bankName;
+        this.bankAddress = bankAddress;
+        this.employees = new HashMap<>();
+        this.customers = new HashMap<>();
+        this.accounts = new HashMap<>();
+        
+    }
+
+    // Add/Update Bank
+    public void addOrUpdateBank() {
+       
+    }
+    // Add/Update Employee
+    public void addOrUpdateEmployee(Employee employee ) {
+        // Logic to add or update employee
+        employees.put(employee.getEmployeeID(), employee);
+        
+    }  
+    // Add/Update Customer
+    public void addOrUpdateCustomer(Customer customer) {
+        // Logic to add or update customer
+        customers.put(customer.getCustomerId(), customer);
+    }
+
+    // Add/Update Account
+    public void addOrUpdateAccount(Account account) {
+        // Logic to add or update account
+        accounts.put(account.getAccountID(),account);
+    }
+   // Show Employees
+    public void showEmployees() {
+        for (Map.Entry<Integer, Employee> entry : employees.entrySet()) {
+            System.out.println("Employee ID: " + entry.getKey() + ", Details: " + entry.getValue());
+        }
+    }
+
+    // Show Customers
+    public void showCustomers() {
+        for (Map.Entry<Integer, Customer> entry : customers.entrySet()) {
+            System.out.println("Customer ID: " + entry.getKey() + ", Details: " + entry.getValue());
+        }
+    }
+
+    // Show Accounts
+    public void showAccounts() {
+        for (Map.Entry<Integer, Account> entry : accounts.entrySet()) {
+            System.out.println("Account ID: " + entry.getKey() + ", Details: " + entry.getValue());
+        }
+    }
+
+   
+    // Search Customer by ID
+    public Customer searchCustomerByID(int customerId) {
+        return customers.get(customerId);
+    }
+
+    // Search Employee by ID
+    public Employee searchEmployeeByID(int employeeID) {
+        return employees.get(employeeID);
+    }
+    
+      
+      // Load data from file
+    public void loadDataFromFile(String filePath) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                StringTokenizer st = new StringTokenizer(line, ",");
+                while (st.hasMoreTokens()) {
+                    String token = st.nextToken().trim();
+                    String[] parts = token.split("=");
+
+                    if (parts.length == 3) {
+                        String key = parts[0];
+                        int id = Integer.parseInt(parts[1]);
+                        String[] data = parts[2].split(",");
+
+                        switch (key) {
+                            case "employeeID":
+                                String empName = data[0].split(":")[1];
+                                EmployeeType empType = EmployeeType.valueOf(data[1].split(":")[1]); // Parse enum
+                                Employee employee = new Employee(id, empName, empType);
+                                employees.put(id, employee);
+                                break;
+                            case "customerID":
+                                String custName = data[0].split(":")[1];
+                                CustomerType custType = CustomerType.valueOf(data[1].split(":")[1]);
+                                Customer customer = new Customer(id, custName, custType);
+                                customers.put(id, customer);
+                                break;
+                            case "accountID":
+                                String accType = data[0].split(":")[1];
+                                double balance = Double.parseDouble(data[1].split(":")[1]);
+                                String accCustomerName = data[2].split(":")[1];
+                                AccountType accountType = AccountType.valueOf(accType);
+                                Account account = new Account(id, accountType, balance, accCustomerName);
+                                accounts.put(id, account);
+                                break;
+                            default:
+                                System.out.println("Unknown key: " + key);
+                                break;
+                        }
+                    }
+                }
+            }
+            System.out.println("Data loaded successfully from file: " + filePath);
+        } catch (IOException e) {
+            System.err.println("Error loading data from file: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.err.println("Error parsing numeric value: " + e.getMessage());
+        }
+    }
+
+    // Save data to file
+    public void saveDataToFile(String filePath) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            // Save employees
+            for (Map.Entry<Integer, Employee> entry : employees.entrySet()) {
+                bw.write("employeeID=" + entry.getKey() + ",");
+                bw.write("employeeName=" + entry.getValue().getEmployeeName() + ",");
+                bw.write("employeeType=" + entry.getValue().getEmployeeType());
+                bw.newLine();
+            }
+
+            // Save customers
+            for (Map.Entry<Integer, Customer> entry : customers.entrySet()) {
+                bw.write("customerID=" + entry.getKey() + ",");
+                bw.write("customerName=" + entry.getValue().getCustomerName() + ",");
+                bw.write("customerType=" + entry.getValue().getCustomerType());
+                bw.newLine();
+            }
+
+            // Save accounts
+            for (Map.Entry<Integer, Account> entry : accounts.entrySet()) {
+                bw.write("accountID=" + entry.getKey() + ",");
+                bw.write("accountType=" + entry.getValue().getAccountType() + ",");
+                bw.write("balance=" + entry.getValue().getBalance() + ",");
+                bw.write("customerName=" + entry.getValue().getCustomerName());
+                bw.newLine();
+            }
+
+            System.out.println("Data saved successfully to file: " + filePath);
+        } catch (IOException e) {
+            System.err.println("Error saving data to file: " + e.getMessage());
+        }
+    }
+}
+
+      
