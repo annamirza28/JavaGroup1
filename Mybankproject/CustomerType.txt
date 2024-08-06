@@ -1,0 +1,9 @@
+package com.itexpert.homework.mybank;
+
+/**
+ *
+ * @author Ana
+ */
+public enum CustomerType {
+   BUSINESS, INDIVIDUAL 
+}

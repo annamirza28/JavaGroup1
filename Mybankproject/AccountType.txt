@@ -1,0 +1,11 @@
+package com.itexpert.homework.mybank;
+
+/**
+ *
+ * @author Ana
+ */
+public enum AccountType {
+    CHECKING,
+    FIXEDDEPOSIT,
+    SAVINGS 
+}
